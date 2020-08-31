@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+
+    <main id="main">
+    <section id="team" class="team section-bg">
+        <div class="container" data-aos="fade-up">
+
+            <div class="section-title">
+                <h2>User name: {{ user.username }}</h2>
+                <h3>First name: {{ user.first_name }}</h3>
+                <h3>Last name: {{ user.last_name }}</h3>
+                <p>email: {{ user.email }}</p>
+                <h4><a href="{% url "changepassword" %}">Change password</a>
+
+                    <a href="{% url 'userchange' user.id %}">edit profile</a>
+                </h4>
+            </div>
+        </div>
+    </section>
+    <section id="team" class="team section-bg">
+    <div class="container" data-aos="fade-up">
+
+    <div class="section-title">
+        <h2>Your books</h2>
+    </div>
+
+    <div class="row">
+        {% for order_item in order_items %}
+
+            <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                <div class="member">
+                    <div class="member-img">
+                        <a href="{% url 'bookdetails' order_item.book.pk %}"><img
+                                src="{{ order_item.book.img.url }}" class="img-fluid" alt=""></a>
+                    </div>
+                    <div class="member-info">
+                        <h2 class="title"><a
+                                href="{% url 'bookdetails' order_item.book.pk %}">{{ order_item.book.title }}</a>
+                        </h2>
+                        <h4>{{ order_item.book.author }}</h4>
+                        <h4><a href="{% url 'createreview' order_item.id %}">Create review</a></h4>
+                    </div>
+                </div>
+            </div>
+
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+

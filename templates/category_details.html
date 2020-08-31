@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h2> {{ category.name }}</h2>
+    {% for book in category.book_set.all %}
+        <ul>
+            <li class=""><a href="{% url 'bookdetails' book.id %}"> {{ book.title }}</a></li>
+        </ul>
+    {% endfor %}
+    <div>
+        <ul>
+            <li><a href="{% url 'editcategory' category.id %}">Edit</a></li>
+            <li><a href="{% url 'deletecategory' category.id %}">Delete</a></li>
+        </ul>
+    </div>
+
+{% endblock %}

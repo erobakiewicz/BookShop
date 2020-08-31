@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {#    {% for item in order.user.get_full_name %}#}
+    {#        {{ item.username }}#}
+    {#    {% endfor %}#}
+
+    <div class="section">
+    <table class="table" style="width: 50%">
+    <tr>
+        <th>Item</th>
+        <th></th>
+        <th>Price</th>
+        <th>Remove</th>
+    </tr>
+        {% for ordered_item in order.ordered_items.all %}
+            <tr>
+                <td>
+                            <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+                <img src="{{  ordered_item.book.img.url  }}" width="200">
+                </div>
+                            </div>
+                </td>
+                <td>
+                                                      <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+             Title <h6 class="text-lg-left">{{ ordered_item.book.title }}</h6>
+             Author <h6 class="float-left">{{ ordered_item.book.author }}</h6>
+            </div>
+        </div>
+
+                </td>
+                <td>{{ ordered_item.book.price }}</td>
+            <td><form action="{% url 'deleteorderitem' ordered_item.pk %}" method="post">{% csrf_token %}<input type="submit" value="remove"></form></td>
+            </tr>
+
+        {% endfor %}
+    <tfoot>
+        <td>
+                Total price: <td class="fieldBox">{{ order.get_total_price|floatformat:2 }}</td>
+        <td><form action="{% url 'checkout' %}" method="post">{% csrf_token %}<input type="submit" value="checkout"></form>
+</td>
+        </td>
+    </tfoot>
+    </table>
+    </div>
+
+
+{% endblock %}

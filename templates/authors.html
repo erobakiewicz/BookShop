@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {% load static %}
+
+    <!-- ======= Featured Services Section ======= -->
+    <section id="featured-services" class="featured-services">
+        <div class="container" data-aos="fade-up">
+
+            <div class="row">
+                {% for author in author_list %}
+                    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+                        <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+                            <div class="img-fluid"><img src="{{ author.img.url }}" width="200"></div>
+                            <h2 class="title"><a href="{% url 'authordetails' author.id %}">{{ author.name }}</a></h2>
+                            <h5 class="description">{{ author.description|truncatechars:255 }}</h5>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <a href="{% url 'createauthor' %}">Add author</a>
+        </div>
+
+{% endblock %}
