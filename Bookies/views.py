@@ -1,8 +1,10 @@
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView, TemplateView
 
+from Bookies.constants import OrderStatuses
 from Bookies.models import Book, Author, Category, Review, Order, OrderItem
 
 
@@ -172,25 +174,35 @@ class Checkout(View):
 
 
 # review
-class ReviewCreateView(CreateView):
+
+class ReviewCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Review
     fields = ['rating', 'comment']
     template_name = 'review_form.html'
-    success_url = reverse_lazy('categories')
+    success_url = reverse_lazy('userprofile')
+
+    def test_func(self):
+        # user = self.model.order_item.order.user
+        # bought = self.model.order_item.order.filter(status=OrderStatuses.COMLETED, user=user)
+        # if bought:
+            return True
 
     def form_valid(self, form):
-        form.instance.order_item_id = self.kwargs.get('order_item_id')
-        return super().form_valid(form)
+        try:
+            form.instance.order_item_id = self.kwargs.get('order_item_id')
+            return super().form_valid(form)
+        except:
+            raise Exception("You wrote it already")
 
 
-class ReviewEditView(UpdateView):
+class ReviewEditView(LoginRequiredMixin, UpdateView):
     model = Review
     fields = ['rating', 'comment']
     template_name = 'review_form.html'
     success_url = reverse_lazy('categories')
 
 
-class ReviewDeleteView(DeleteView):
+class ReviewDeleteView(LoginRequiredMixin, DeleteView):
     model = Review
     template_name = 'review_confirm_delete.html'
     success_url = reverse_lazy('categories')
