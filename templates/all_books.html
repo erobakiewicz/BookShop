@@ -2,13 +2,13 @@
 
 {% block content %}
     {% load static %}
-<div>
-    <form method="get" action="" id="searchform">
-        <input class="icofont-search-document" id="searchbar" name="q" type="text"
-               value="{{ request.GET.q }}" placeholder="Search...">
-        <input type="submit" value="search">
-    </form>
-</div>
+    <div>
+        <form method="get" action="" id="searchform">
+            <input class="icofont-search-document" id="searchbar" name="q" type="text"
+                   value="{{ request.GET.q }}" placeholder="Search...">
+            <input type="submit" value="search">
+        </form>
+    </div>
     <!-- ======= Featured Services Section ======= -->
     <section id="featured-services" class="featured-services">
         <div class="container" data-aos="fade-up">

@@ -1,38 +1,41 @@
 {% extends 'base.html' %}
 
-      {% block content %}
-{% load static %}
-              <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-            <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-                <div><img src="{{  book.img.url  }}" width="200"></div>
-             title <h2 class="title">{{ book.title }}</h2>
-             author <h5 class="description"><a href="{% url 'authordetails' book.author_id %}"> {{ book.author }}</a></h5>
-             description <p class="description">{{ book.description }}</p>
-               price <h5 class="description">{{ book.price }}</h5>
-               available <h5 class="description">{{ book.available }}</h5>
-               categories: {% for category in book.category.get_queryset %}
-                <h5 class="description"><a href="{% url 'categorydetials' category.id %}">{{ category.name }} </a></h5>
-                {% endfor %}
-            </div>
-          </div>
-          <div>
-          <p> Average rating: {{ book.rating }}</p>
-          <p> Reviews:
-              {% for review in reviews %}
-                  <ul>
-             <li>User {{ review.order_item.order.user.username }} rating: {{ review.rating }} <br>
-              Review: {{ review.comment }}
-                  </li>
-                  </ul>
-              {% endfor %}
+{% block content %}
+    {% load static %}
+    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
+        <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+            <div><img src="{{ book.img.url }}" width="200"></div>
+            title <h2 class="title">{{ book.title }}</h2>
+            author <h5 class="description"><a href="{% url 'authordetails' book.author_id %}"> {{ book.author }}</a>
+        </h5>
+            description <p class="description">{{ book.description }}</p>
+            price <h5 class="description">{{ book.price }}</h5>
+            available <h5 class="description">{{ book.available }}</h5>
+            categories: {% for category in book.category.get_queryset %}
+            <h5 class="description"><a href="{% url 'categorydetials' category.id %}">{{ category.name }} </a></h5>
+        {% endfor %}
+        </div>
+    </div>
+    <div>
+        <p> Average rating: {{ book.rating }}</p>
+        <p> Reviews:
+            {% for review in reviews %}
+                <ul>
+                    <li>User {{ review.order_item.order.user.username }} rating: {{ review.rating }} <br>
+                        Review: {{ review.comment }}
+                    </li>
+                </ul>
+            {% endfor %}
 
-          </p>
-          <ul>
-              <form action="{% url 'add_order_view' book.id %}" method="post">{% csrf_token %}<input type="submit" value="Add to cart"></form>
+        </p>
+        <ul>
+            <form action="{% url 'add_order_view' book.id %}" method="post">{% csrf_token %}<input type="submit"
+                                                                                                   value="Add to cart">
+            </form>
 
-                <li><a href="{% url 'editbook' book.id %}">Edit</a></li>
-                <li><a href="{% url 'deletebook' book.id %}">Delete</a></li>
+            <li><a href="{% url 'editbook' book.id %}">Edit</a></li>
+            <li><a href="{% url 'deletebook' book.id %}">Delete</a></li>
 
-          </ul>
-          </div>
-        {% endblock %}
+        </ul>
+    </div>
+{% endblock %}

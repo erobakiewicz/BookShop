@@ -101,56 +101,57 @@
 <!-- Newest books section -->
 
 <main id="main">
-<section id="team" class="team section-bg">
-      <div class="container" data-aos="fade-up">
+    <section id="team" class="team section-bg">
+        <div class="container" data-aos="fade-up">
 
-        <div class="section-title">
-          <h2>New books</h2>
-          <h3>Our newest <span>books</span></h3>
-          <p>See what's new in our store</p>
+            <div class="section-title">
+                <h2>New books</h2>
+                <h3>Our newest <span>books</span></h3>
+                <p>See what's new in our store</p>
+            </div>
         </div>
-      </div>
 
         <div class="row">
-{% for book in newest_book %}
+            {% for book in newest_book %}
 
-          <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100" >
-            <div class="member">
-              <div class="member-img">
-                  <a href="{% url 'bookdetails' book.pk %}"><img src="{{ book.img.url }}" class="img-fluid" alt=""></a>
-              </div>
-              <div class="member-info">
-              <h2 class="title"><a href="{% url 'bookdetails' book.pk %}">{{ book.title }}</a></h2>
-                <h4>{{ book.author }}</h4>
-                <span>{{ book.price }}</span>
-              </div>
-            </div>
-          </div>
+                <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
+                    <div class="member">
+                        <div class="member-img">
+                            <a href="{% url 'bookdetails' book.pk %}"><img src="{{ book.img.url }}" class="img-fluid"
+                                                                           alt=""></a>
+                        </div>
+                        <div class="member-info">
+                            <h2 class="title"><a href="{% url 'bookdetails' book.pk %}">{{ book.title }}</a></h2>
+                            <h4>{{ book.author }}</h4>
+                            <span>{{ book.price }}</span>
+                        </div>
+                    </div>
+                </div>
 
-    {% endfor %}
+            {% endfor %}
         </div>
     </section>
 
-<!-- End Newest books section -->
+    <!-- End Newest books section -->
 
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials">
         <div class="container" data-aos="zoom-in">
 
             <div class="owl-carousel testimonials-carousel">
-            {% for review in newest_review %}
-                <div class="testimonial-item">
-                    <img src="{{ review.order_item.book.img.url }}" class="testimonial-img" alt="">
-                    <h3>{{ review.order_item.book.title }}</h3>
-                    <h4>by <b>{{ review.order_item.order.user.username }}</b> </h4>
-                    <h4>User rating: {{ review.rating }}</h4>
-                    <p>
-                        <i class="bx bxs-quote-alt-left quote-icon-left"></i>
-                        {{ review.comment|truncatechars:255 }}
-                        <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                        <h5><a href="{%   url 'bookdetails' review.order_item.book.id %}">Read more...</a></h5>
-                    </p>
-                </div>
+                {% for review in newest_review %}
+                    <div class="testimonial-item">
+                        <img src="{{ review.order_item.book.img.url }}" class="testimonial-img" alt="">
+                        <h3>{{ review.order_item.book.title }}</h3>
+                        <h4>by <b>{{ review.order_item.order.user.username }}</b></h4>
+                        <h4>User rating: {{ review.rating }}</h4>
+                        <p>
+                            <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                            {{ review.comment|truncatechars:255 }}
+                            <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                        <h5><a href="{% url 'bookdetails' review.order_item.book.id %}">Read more...</a></h5>
+                        </p>
+                    </div>
                 {% endfor %}
             </div>
 

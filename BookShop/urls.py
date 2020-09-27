@@ -13,20 +13,21 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf import settings
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from django.views.generic import TemplateView
-from django.conf import settings
-from django.conf.urls.static import static
 
 from Bookies.models import Book, Review
 
 urlpatterns = [
-    path('', TemplateView.as_view(template_name='index.html'),{'books': Book.objects.all(),
-                                                               'newest_book': Book.objects.all().order_by('-id')[:4],
-                                                                'newest_review': Review.objects.all().order_by('-id')[:4]
-                                                               },
+    path('', TemplateView.as_view(template_name='index.html'), {'books': Book.objects.all(),
+                                                                'newest_book': Book.objects.all().order_by('-id')[:4],
+                                                                'newest_review': Review.objects.all().order_by('-id')[
+                                                                                 :4]
+                                                                },
          name="index"),
     path('admin/', admin.site.urls, name='admin'),
     path("accounts/", include("accounts.urls")),

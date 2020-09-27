@@ -1,6 +1,6 @@
 import pytest
-from django.test import Client
 from django.contrib.auth.models import User, Permission, ContentType
+from django.test import Client
 
 from Bookies.models import Book, Category, Author
 
