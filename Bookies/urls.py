@@ -23,6 +23,9 @@ from Bookies.views import BooksListView, AuthorsTemplateView, CategoryTemplateVi
     AuthorEditView, AuthorDeleteView, CategoryCreateView, CategoryEditView, CategoryDeleteView, AddOrderItemView, \
     CartView, Checkout, ReviewCreateView, ReviewEditView, ReviewDeleteView, DeleteOrderItemView
 
+
+handler404 = 'Bookies.views.handler404'
+
 urlpatterns = [
     path('all/', BooksListView.as_view(), name='allbooks'),
     path('all/<int:pk>', BookDetailView.as_view(), name='bookdetails'),

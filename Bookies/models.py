@@ -18,6 +18,7 @@ class Book(models.Model):
     category = models.ManyToManyField("Category")
     order = models.ManyToManyField("Order")
 
+
     def __str__(self):
         return self.title
 
