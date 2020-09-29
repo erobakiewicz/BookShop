@@ -1,15 +1,33 @@
-from django.shortcuts import render, redirect
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Q
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.views import View
 from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView, TemplateView
 
+from Bookies.constants import OrderStatuses
 from Bookies.models import Book, Author, Category, Review, Order, OrderItem
 
 
 # book views
 class BooksListView(ListView):
     model = Book
+    paginate_by = 4
+    ordering = ['-id']
     template_name = 'all_books.html'
+
+    def get_context_data(self, *args, **kwargs):
+        ctx = super().get_context_data(*args, **kwargs)
+        ctx['query'] = self.request.GET.get('q', '')
+        return ctx
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Book.objects.filter(
+                Q(title__icontains=query) | Q(author__name__icontains=query) | Q(description__icontains=query))
+        else:
+            return Book.objects.all()
 
 
 # detail view
@@ -50,6 +68,7 @@ class BookDeleteView(DeleteView):
 
 class AuthorsTemplateView(ListView):
     model = Author
+    paginate_by = 4
     template_name = 'authors.html'
 
     def get_context_data(self, **kwargs):
@@ -88,12 +107,20 @@ class AuthorDeleteView(DeleteView):
 
 class CategoryTemplateView(ListView):
     model = Category
+    paginate_by = 4
     template_name = 'categories.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update({'authors': Category.objects.all()})
         return context
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        if query:
+            return Category.objects.filter(name__icontains=query)
+        else:
+            return Category.objects.all()
 
 
 class CategoryDetailView(DetailView):
@@ -172,25 +199,43 @@ class Checkout(View):
 
 
 # review
-class ReviewCreateView(CreateView):
+
+class ReviewCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     model = Review
     fields = ['rating', 'comment']
     template_name = 'review_form.html'
-    success_url = reverse_lazy('categories')
+    success_url = reverse_lazy('userprofile')
+
+    def test_func(self):
+        order_item = get_object_or_404(OrderItem, pk=self.kwargs.get('order_item_id'))
+        if order_item.order.user != self.request.user:
+            return False
+        elif order_item.order.status != OrderStatuses.COMLETED:
+            return False
+        return True
 
     def form_valid(self, form):
-        form.instance.order_item_id = self.kwargs.get('order_item_id')
-        return super().form_valid(form)
+        try:
+            form.instance.order_item_id = self.kwargs.get('order_item_id')
+            return super().form_valid(form)
+        except:
+            raise Exception("You wrote it already")
 
 
-class ReviewEditView(UpdateView):
+class ReviewEditView(LoginRequiredMixin, UpdateView):
     model = Review
     fields = ['rating', 'comment']
     template_name = 'review_form.html'
     success_url = reverse_lazy('categories')
 
 
-class ReviewDeleteView(DeleteView):
+class ReviewDeleteView(LoginRequiredMixin, DeleteView):
     model = Review
     template_name = 'review_confirm_delete.html'
     success_url = reverse_lazy('categories')
+
+
+def handler404(request, exception, template_name="404.html"):
+    response = render(request, template_name)
+    response.status_code = 404
+    return response

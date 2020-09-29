@@ -2,9 +2,15 @@
 
 {% block content %}
     {% load static %}
-
+    <div id="search-engine">
+        <form method="GET" action="" id="searchform">
+            <input class="searchfield" id="searchbox" name="q" type="text" value="{{ request.GET.q }}"
+                   placeholder="Search..."/>
+            <input class="btn-primary" type="submit" value="search">
+        </form>
+    </div>
     <!-- ======= Featured Services Section ======= -->
-    <section id="featured-services" class="featured-services">
+    <section id="featured-services" class="featured">
         <div class="container" data-aos="fade-up">
 
             <div class="row">
@@ -17,7 +23,25 @@
                     </div>
                 {% endfor %}
             </div>
-            <a href="{% url 'createcategory' %}">Add category</a>
         </div>
 
+        <div class="pagination">
+    <span class="btn-group">
+        {% if page_obj.has_previous %}
+            <a href="?page=1">&laquo; first </a>
+            <a href="?page={{ page_obj.previous_page_number }}"> previous   </a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+        </span>
+
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}"> next </a>
+            <a href="?page={{ page_obj.paginator.num_pages }}"> last &raquo;</a>
+        {% endif %}
+    </span>
+        </div>
+
+        <a class="" href="{% url 'createcategory' %}">Add category</a>
 {% endblock %}

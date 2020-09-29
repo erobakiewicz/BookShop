@@ -17,11 +17,14 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
+
 from Bookies import views
 from Bookies.views import BooksListView, AuthorsTemplateView, CategoryTemplateView, BookDetailView, \
     AuthorDetailView, CategoryDetailView, BookEditView, BookCreateView, BookDeleteView, AuthorCreateView, \
     AuthorEditView, AuthorDeleteView, CategoryCreateView, CategoryEditView, CategoryDeleteView, AddOrderItemView, \
     CartView, Checkout, ReviewCreateView, ReviewEditView, ReviewDeleteView, DeleteOrderItemView
+
+handler404 = 'Bookies.views.handler404'
 
 urlpatterns = [
     path('all/', BooksListView.as_view(), name='allbooks'),

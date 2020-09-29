@@ -2,7 +2,7 @@ import pytest
 from django.urls import reverse
 
 # simple http response 200 tests
-from Bookies.models import Category, Book, Author
+from Bookies.models import Category, Author
 
 
 @pytest.mark.django_db

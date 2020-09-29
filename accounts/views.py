@@ -8,15 +8,8 @@ from django.views.generic import UpdateView, CreateView, TemplateView
 from django.views.generic.base import View
 
 from Bookies.constants import OrderStatuses
-from Bookies.models import Book, OrderItem
+from Bookies.models import OrderItem
 from accounts.forms import UserChangeForm
-
-
-class UpdateUserView(UpdateView):
-    template_name = 'EditUser.html'
-    form_class = UserChangeForm
-    success_url = reverse_lazy("index")
-    model = User
 
 
 class CreateUserView(CreateView):
@@ -32,8 +25,14 @@ class CreateUserView(CreateView):
         return ret_val
 
 
+class UpdateUserView(LoginRequiredMixin, UpdateView):
+    template_name = 'EditUser.html'
+    form_class = UserChangeForm
+    success_url = reverse_lazy("index")
+    model = User
 
-class UserProfileView(TemplateView):
+
+class UserProfileView(LoginRequiredMixin, TemplateView):
     model = User
     fields = ['username', 'first_name', 'last_name', 'email', ]
     template_name = 'UserProfile.html'
@@ -52,8 +51,8 @@ class UserProfileView(TemplateView):
 
 # password change view
 
-class ChangePasswordView(View):
-    def post(self,request):
+class ChangePasswordView(LoginRequiredMixin, View):
+    def post(self, request):
         form = PasswordChangeForm(user=request.user, data=request.POST)
 
         if form.is_valid():
@@ -63,7 +62,7 @@ class ChangePasswordView(View):
         else:
             return redirect(reverse('userprofile', kwargs={'pk': request.user.id}))
 
-    def get(self,request):
+    def get(self, request):
         form = PasswordChangeForm(user=request.user)
         args = {'form': form}
         return render(request, 'change_password.html', args)
