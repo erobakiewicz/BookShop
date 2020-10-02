@@ -78,9 +78,6 @@ WSGI_APPLICATION = 'BookShop.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 
-import dj_database_url
-DATABASES['default'] = dj_database_url.config(default='postgres://mieytbtgahkjho:50eedffd40bf3e47434ad420198d3fed85ba413455f52146765d5afafb3631bb@ec2-46-137-123-136.eu-west-1.compute.amazonaws.com:5432/dfl8e9ldpqdrqc',conn_max_age=600, ssl_require=True)
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -124,3 +121,7 @@ STATIC_URL = '/templates/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Bookies/static/img/')
 MEDIA_URL = '/media/'
+
+
+import dj_database_url
+DATABASES['default'] = dj_database_url.config(default='postgres://mieytbtgahkjho:50eedffd40bf3e47434ad420198d3fed85ba413455f52146765d5afafb3631bb@ec2-46-137-123-136.eu-west-1.compute.amazonaws.com:5432/dfl8e9ldpqdrqc')
