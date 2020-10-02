@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = 'b-8x4es-@c82=@mzizw748vy#%_j91*c4%*lbn^lhxm-b^r6xl'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 
 ALLOWED_HOSTS = ['ebookstorebookers.herokuapp.com','127.0.0.1']
