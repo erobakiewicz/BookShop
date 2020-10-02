@@ -1,0 +1,10 @@
+{
+  "name": "Bookers ebook store",
+  "description": "A simple project of ebook store website.",
+  "repository": "https://github.com/erobakiewicz/BookShop",
+  "keywords": [
+    "python",
+    "django",
+    "store"
+  ]
+}
