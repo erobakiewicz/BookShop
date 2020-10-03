@@ -16,7 +16,7 @@ class Book(models.Model):
     available = models.BooleanField()
     img = models.ImageField(blank=True, null=True, upload_to='img', default='book_default.jpg')
     category = models.ManyToManyField("Category")
-    order = models.ManyToManyField("Order")
+    order = models.ManyToManyField("Order", null=True, blank=True)
 
     def __str__(self):
         return self.title
