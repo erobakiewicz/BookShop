@@ -19,7 +19,7 @@ class Book(models.Model):
     order = models.ManyToManyField("Order", null=True, blank=True)
 
     def __str__(self):
-        return self.title
+        return str(self.title)
 
     class Meta:
         get_latest_by = 'id'
