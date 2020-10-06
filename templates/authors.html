@@ -37,6 +37,7 @@
         {% endif %}
     </span>
         </div>
-
+    {% if user.is_staff %}
         <a href="{% url 'createauthor' %}">Add author</a>
+    {% endif %}
 {% endblock %}

@@ -42,6 +42,7 @@
         {% endif %}
     </span>
         </div>
-
-        <a class="" href="{% url 'createcategory' %}">Add category</a>
+        {% if user.is_staff %}
+            <a class="" href="{% url 'createcategory' %}">Add category</a>
+        {% endif %}
 {% endblock %}

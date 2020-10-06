@@ -7,11 +7,12 @@
             <li class=""><a href="{% url 'bookdetails' book.id %}"> {{ book.title }}</a></li>
         </ul>
     {% endfor %}
-    <div>
-        <ul>
-            <li><a href="{% url 'editcategory' category.id %}">Edit</a></li>
-            <li><a href="{% url 'deletecategory' category.id %}">Delete</a></li>
-        </ul>
-    </div>
-
+    {% if user.is_staff %}
+        <div>
+            <ul>
+                <li><a href="{% url 'editcategory' category.id %}">Edit</a></li>
+                <li><a href="{% url 'deletecategory' category.id %}">Delete</a></li>
+            </ul>
+        </div>
+    {% endif %}
 {% endblock %}

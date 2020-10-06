@@ -52,6 +52,7 @@
         </div>
 
     </section>
-
-    <a href="{% url 'createbook' %}">Add book</a>
+    {% if user.is_staff %}
+        <a href="{% url 'createbook' %}">Add book</a>
+    {% endif %}
 {% endblock %}
