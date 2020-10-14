@@ -128,4 +128,8 @@ AWS_S3_SIGNATURE_VERSION = "s3v4"
 
 AWS_S3_FILE_OVERRIDE = False
 AWS_DEFAULT_ACL = None
+STATICFILES_STORAGE = 'storages.backends.s3boto.S3BotoStorage'
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+
+
