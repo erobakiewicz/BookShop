@@ -18,6 +18,7 @@ from django.conf.urls.static import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path
 
+from BookShop.aws import conf
 from Bookies import views
 from Bookies.views import BooksListView, AuthorsTemplateView, CategoryTemplateView, BookDetailView, \
     AuthorDetailView, CategoryDetailView, BookEditView, BookCreateView, BookDeleteView, AuthorCreateView, \
@@ -59,4 +60,5 @@ urlpatterns = [
 
 ]
 urlpatterns += staticfiles_urlpatterns()
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(conf.MEDIA_URL, document_root=conf.MEDIA_ROOT)
+

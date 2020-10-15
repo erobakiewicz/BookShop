@@ -20,6 +20,7 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.urls import path, include
 from django.views.generic import TemplateView
 
+from BookShop.aws import conf
 from Bookies.models import Book, Review
 
 urlpatterns = [
@@ -34,4 +35,4 @@ urlpatterns = [
     path('bookies/', include('Bookies.urls')),
 ]
 urlpatterns += staticfiles_urlpatterns()
-urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += static(conf.MEDIA_URL, document_root=conf.MEDIA_ROOT)
