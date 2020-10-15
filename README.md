@@ -7,7 +7,7 @@ Bookers web app of online ebook store. Registered users can purchase books and w
 </a>
 
 # Functionalities
-The app is written in python using the Django framework and Bootstrap.
+The app is written in python using the Django framework and Bootstrap and AWS S3 (serving static files).
 
 # User management:
 - guest view, log-in, and log-out
