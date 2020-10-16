@@ -112,5 +112,4 @@ LOGOUT_REDIRECT_URL = '/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True,
-    default='postgres://xdckkyyjxomlyd:08a48e7f703e31063e6ebc1a6946df570f4eea74b54123d78472ba09b333acd9@ec2-54-170-123-247.eu-west-1.compute.amazonaws.com:5432/ddprt6mgdaots4')
+DATABASES['default'] = dj_database_url.config(default='postgres://xdckkyyjxomlyd:08a48e7f703e31063e6ebc1a6946df570f4eea74b54123d78472ba09b333acd9@ec2-54-170-123-247.eu-west-1.compute.amazonaws.com:5432/ddprt6mgdaots4')
