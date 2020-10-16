@@ -111,4 +111,4 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/'
 
 DATABASES['default'] = dj_database_url.config(
-    default='postgres://mieytbtgahkjho:50eedffd40bf3e47434ad420198d3fed85ba413455f52146765d5afafb3631bb@ec2-46-137-123-136.eu-west-1.compute.amazonaws.com:5432/dfl8e9ldpqdrqc')
+    default='postgres://xdckkyyjxomlyd:08a48e7f703e31063e6ebc1a6946df570f4eea74b54123d78472ba09b333acd9@ec2-54-170-123-247.eu-west-1.compute.amazonaws.com:5432/ddprt6mgdaots4')
