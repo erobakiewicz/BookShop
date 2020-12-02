@@ -29,19 +29,19 @@ handler404 = 'Bookies.views.handler404'
 
 urlpatterns = [
     path('all/', BooksListView.as_view(), name='allbooks'),
-    path('all/<int:pk>', BookDetailView.as_view(), name='bookdetails'),
+    path('all/<slug:slug>/', BookDetailView.as_view(), name='bookdetails'),
     path('all/create/', BookCreateView.as_view(), name='createbook'),
     path('all/edit/<int:pk>', BookEditView.as_view(), name='editbook'),
     path('all/delete/<int:pk>', BookDeleteView.as_view(), name='deletebook'),
 
     path('authors/', AuthorsTemplateView.as_view(), name='authors'),
-    path('authors/<int:pk>', AuthorDetailView.as_view(), name='authordetails'),
+    path('authors/<slug:slug>/', AuthorDetailView.as_view(), name='authordetails'),
     path('authors/create/', AuthorCreateView.as_view(), name='createauthor'),
     path('authors/edit/<int:pk>', AuthorEditView.as_view(), name='editauthor'),
     path('authors/delete/<int:pk>', AuthorDeleteView.as_view(), name='deleteauthor'),
 
     path('categories/', CategoryTemplateView.as_view(), name='categories'),
-    path('categories/<int:pk>', CategoryDetailView.as_view(), name='categorydetials'),
+    path('categories/<slug:slug>', CategoryDetailView.as_view(), name='categorydetials'),
     path('categories/create/', CategoryCreateView.as_view(), name='createcategory'),
     path('categories/edit/<int:pk>', CategoryEditView.as_view(), name='editcategory'),
     path('categories/delete/<int:pk>', CategoryDeleteView.as_view(), name='deletecategory'),

@@ -36,7 +36,7 @@
                     </div>
                     <div class="member-info">
                         <h2 class="title"><a
-                                href="{% url 'bookdetails' order_item.book.pk %}">{{ order_item.book.title }}</a>
+                                href="{% url 'bookdetails' order_item.book.slug %}">{{ order_item.book.title }}</a>
                         </h2>
                         <h4>{{ order_item.book.author }}</h4>
                         <h4><a href="{% url 'createreview' order_item.id %}">Create review</a></h4>

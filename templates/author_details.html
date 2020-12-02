@@ -9,7 +9,7 @@
             <h5 class="description">{{ author.description }}</h5>
             <h3> Books:</h3> {% for book in author.book_set.all %}
             <ul>
-                <li class=""><a href="{% url 'bookdetails' book.id %}"> {{ book.title }}</a></li>
+                <li class=""><a href="{% url 'bookdetails' book.slug %}"> {{ book.title }}</a></li>
             </ul>
         {% endfor %}
         </div>

@@ -36,12 +36,15 @@ class BookDetailView(DetailView):
     template_name = "book_details.html"
     fields = '__all__'
 
+
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(
             {'reviews': Review.objects.filter(order_item__book_id=self.kwargs.get('pk'))},
         )
         return context
+
 
 
 class BookCreateView(CreateView):

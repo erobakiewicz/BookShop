@@ -17,7 +17,8 @@
                 {% for category in category_list %}
                     <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
                         <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
-                            <h2 class="title"><a href="{% url 'categorydetials' category.id %}">{{ category.name }}</a>
+                            <h2 class="title"><a href="{% url 'categorydetials' category.slug %}"
+                            >{{ category.name }}</a>
                             </h2>
                         </div>
                     </div>

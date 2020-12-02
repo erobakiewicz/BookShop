@@ -117,11 +117,11 @@
                 <div class="col-lg-3 col-md-6 d-flex align-items-stretch" data-aos="fade-up" data-aos-delay="100">
                     <div class="member">
                         <div class="member-img">
-                            <a href="{% url 'bookdetails' book.pk %}"><img src="{{ book.img.url }}" class="img-fluid"
+                            <a href="{% url 'bookdetails' book.slug %}"><img src="{{ book.img.url }}" class="img-fluid"
                                                                            alt=""></a>
                         </div>
                         <div class="member-info">
-                            <h2 class="title"><a href="{% url 'bookdetails' book.pk %}">{{ book.title }}</a></h2>
+                            <h2 class="title"><a href="{% url 'bookdetails' book.slug %}">{{ book.title }}</a></h2>
                             <h4>{{ book.author }}</h4>
                             <span>{{ book.price }}</span>
                         </div>
@@ -149,7 +149,7 @@
                             <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                             {{ review.comment|truncatechars:255 }}
                             <i class="bx bxs-quote-alt-right quote-icon-right"></i>
-                        <h5><a href="{% url 'bookdetails' review.order_item.book.id %}">Read more...</a></h5>
+                        <h5><a href="{% url 'bookdetails' review.order_item.book.slug %}">Read more...</a></h5>
                         </p>
                     </div>
                 {% endfor %}

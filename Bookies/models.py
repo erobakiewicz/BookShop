@@ -2,6 +2,8 @@ from django.contrib.auth.models import User, Permission
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import Avg, Sum
+from django.urls import reverse
+from django.utils.text import slugify
 
 from Bookies.constants import OrderStatuses
 
@@ -10,6 +12,7 @@ from Bookies.constants import OrderStatuses
 
 class Book(models.Model):
     title = models.CharField(max_length=256)
+    slug = models.SlugField(max_length=255, null=True, unique=True)
     description = models.TextField()
     author = models.ForeignKey('Author', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=6, decimal_places=2, validators=[MinValueValidator(0.01)])
@@ -30,9 +33,16 @@ class Book(models.Model):
             Avg('rating')).get('rating__avg')
 
 
+
+    def save(self, *args, **kwargs):
+        if not self.slug:
+            self.slug = slugify(self.title)
+        super(Book, self).save(*args, **kwargs)
+
 # Author model
 class Author(models.Model):
     name = models.CharField(max_length=256)
+    slug = models.SlugField(max_length=255, null=True, unique=True)
     description = models.TextField()
     img = models.ImageField(blank=True, null=True, upload_to='img', default='writer_default.jpg')
 
@@ -43,6 +53,8 @@ class Author(models.Model):
 # Category model
 class Category(models.Model):
     name = models.CharField(max_length=128)
+    slug = models.SlugField(max_length=255, null=True, unique=True)
+
 
     def __str__(self):
         return self.name
@@ -51,6 +63,7 @@ class Category(models.Model):
 # Review model
 class Review(models.Model):
     order_item = models.OneToOneField("OrderItem", on_delete=models.CASCADE)
+    slug = models.SlugField(max_length=255, null=True, unique=True)
     rating = models.PositiveSmallIntegerField(
         validators=[
             MaxValueValidator(5),
@@ -59,7 +72,7 @@ class Review(models.Model):
     comment = models.TextField()
 
     def __str__(self):
-        return self.order_item
+        return str(self.order_item)
 
 
 # Order / OrderItem models

@@ -4,7 +4,7 @@
     <h2> {{ category.name }}</h2>
     {% for book in category.book_set.all %}
         <ul>
-            <li class=""><a href="{% url 'bookdetails' book.id %}"> {{ book.title }}</a></li>
+            <li class=""><a href="{% url 'bookdetails' book.slug %}"> {{ book.title }}</a></li>
         </ul>
     {% endfor %}
     {% if user.is_staff %}
