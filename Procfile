@@ -1,3 +1,3 @@
 web: gunicorn BookShop.wsgi --timeout 15 --keep-alive 5
-worker: celery worker --app=tasks.app--loglevel=info
+worker: celery -A Bookshop worker --beat
 release: python manage.py migrate
