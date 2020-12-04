@@ -10,6 +10,9 @@ from Bookies.models import Book, Author, Category, Review, Order, OrderItem
 
 
 # book views
+from Bookies.tasks import order_created
+
+
 class BooksListView(ListView):
     model = Book
     paginate_by = 4
@@ -171,10 +174,12 @@ class ContactView(View):
 class AddOrderItemView(View):
     def post(self, *args, **kwargs):
         order = Order.get_editable_order(self.request.user)
-        OrderItem.objects.create(
-            book_id=self.kwargs.get('book_id'),
-            order=order,
-        )
+        try:
+            OrderItem.objects.get(book_id=self.kwargs.get('book_id'), order=order)
+        except:
+            OrderItem.objects.create(
+                book_id=self.kwargs.get('book_id'),
+                order=order)
         return redirect('allbooks')
 
 
@@ -198,6 +203,7 @@ class Checkout(View):
     def post(self, request):
         order = Order.get_editable_order(request.user)
         order.close_order()
+        order_created.delay(order.id)
         return redirect(reverse('userprofile', kwargs={'pk': request.user.id}))
 
 
