@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h2> {{ category.name }}</h2>
+        <div class="container" data-aos="fade-up">
+            <div class="section-title">
+
+    <h1> {{ category.name }}</h1><br>
     {% for book in category.book_set.all %}
-        <ul>
-            <li class=""><a href="{% url 'bookdetails' book.slug %}"> {{ book.title }}</a></li>
-        </ul>
+            <h2><a href="{% url 'bookdetails' book.slug %}"> {{ book.title }}</a></h2><br>
     {% endfor %}
     {% if user.is_staff %}
         <div>
@@ -15,4 +16,6 @@
             </ul>
         </div>
     {% endif %}
+        </div>
+        </div>
 {% endblock %}

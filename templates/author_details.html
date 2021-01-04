@@ -1,9 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-    <div class="col-md-6 col-lg-3 d-flex align-items-stretch mb-5 mb-lg-0">
-        <div class="icon-box" data-aos="fade-up" data-aos-delay="100">
+<div class="container" data-aos="fade-up">
             <div class="img-fluid"><img src="{{ author.img.url }}" width="200"></div>
             <h2 class="title">{{ author.name }}</h2>
             <h5 class="description">{{ author.description }}</h5>
@@ -12,8 +10,6 @@
                 <li class=""><a href="{% url 'bookdetails' book.slug %}"> {{ book.title }}</a></li>
             </ul>
         {% endfor %}
-        </div>
-    </div>
     {% if user.is_staff %}
         <div>
             <ul>
@@ -21,5 +17,7 @@
                 <li><a href="{% url 'deleteauthor' author.id %}">Delete</a></li>
             </ul>
         </div>
+        </div>
     {% endif %}
+
 {% endblock %}

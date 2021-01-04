@@ -2,7 +2,7 @@
 
 {% block content %}
     {% load static %}
-    <div>
+    <div class="container" data-aos="fade-up">
         <form method="get" action="" id="searchform">
             <input class="icofont-search-document" id="searchbar" name="q" type="text"
                    value="{{ request.GET.q }}" placeholder="Search...">

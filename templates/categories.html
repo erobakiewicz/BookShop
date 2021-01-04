@@ -2,7 +2,8 @@
 
 {% block content %}
     {% load static %}
-    <div id="search-engine">
+        <div class="container" data-aos="fade-up">
+
         <form method="GET" action="" id="searchform">
             <input class="searchfield" id="searchbox" name="q" type="text" value="{{ request.GET.q }}"
                    placeholder="Search..."/>
