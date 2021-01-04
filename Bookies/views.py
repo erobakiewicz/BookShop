@@ -168,7 +168,6 @@ class ContactView(View):
     def get(self, request):
         return render(request, 'contact.html')
 
-
 # Cart ORDER, ORDERITEM
 
 class AddOrderItemView(View):
