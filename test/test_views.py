@@ -51,32 +51,27 @@ def test_checkout_view(client, user):
 
 
 @pytest.mark.django_db
-def test_checkout_view(client, user):
+def test_checkout_view_change_password(client, user):
     client.login(username='user1', password='tymczasowe')
     response = client.get(reverse('changepassword'))
     assert response.status_code == 200
-
-
-# @pytest.mark.django_db
-# def test_views_editauthor(client):
-#     response = client.get(reverse("editauthor", args=(1,)))
-#     assert response.status_code == 200
-#     # dla każdego testu stworzyć fixturę obiektów z PK
 
 
 # # tests for instances
 @pytest.mark.django_db
 def test_createbook_view(client, books):
     author = Author.objects.create(name='author')
-    response = client.post(reverse('createbook'), {'title': 'book_test',
-                                                   'description': "some",
-                                                   "author": author,
-                                                   'price': '2',
-                                                   'available': 'True',
-                                                   'img': '',
-                                                   'category': 'none',
-                                                   'order': 'none'
-                                                   })
+    response = client.post(reverse('createbook'),
+                           {
+                               'title': 'book_test',
+                               'description': "some",
+                               "author": author,
+                               'price': '2',
+                               'available': 'True',
+                               'img': '',
+                               'category': 'none',
+                               'order': 'none'
+                           })
     # Book.objects.get(title='book_test')
     assert response.status_code == 302
 
@@ -90,6 +85,11 @@ def test_createcategory_view(client, categories):
 
 @pytest.mark.django_db
 def test_createauthor_view(client, authors):
-    response = client.post(reverse('createauthor'), {'name': 'author_test', 'description': "some", 'img': ""})
+    response = client.post(reverse('createauthor'),
+                           {
+                               'name': 'author_test',
+                               'description': "some",
+                               'img': ""
+                           })
     Author.objects.get(name='author_test')
     assert response.status_code == 302

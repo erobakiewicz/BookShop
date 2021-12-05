@@ -2,6 +2,7 @@ from django.core.mail import send_mail
 from celery import task
 from Bookies.models import Order
 
+
 @task
 def order_created(order_id):
     order = Order.objects.get(id=order_id)

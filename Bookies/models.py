@@ -1,8 +1,7 @@
-from django.contrib.auth.models import User, Permission
+from django.contrib.auth.models import User
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.db.models import Avg, Sum
-from django.urls import reverse
 from django.utils.text import slugify
 
 from Bookies.constants import OrderStatuses
@@ -32,12 +31,11 @@ class Book(models.Model):
         return Review.objects.filter(order_item__book_id=self, order_item__order__status=30).aggregate(
             Avg('rating')).get('rating__avg')
 
-
-
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         super(Book, self).save(*args, **kwargs)
+
 
 # Author model
 class Author(models.Model):
@@ -54,7 +52,6 @@ class Author(models.Model):
 class Category(models.Model):
     name = models.CharField(max_length=128)
     slug = models.SlugField(max_length=255, null=True, unique=True)
-
 
     def __str__(self):
         return self.name

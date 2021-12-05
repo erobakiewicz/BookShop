@@ -1,13 +1,15 @@
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.db.models import Q
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse_lazy, reverse
+from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.generic import ListView, DetailView, UpdateView, CreateView, DeleteView, TemplateView
+from django.views.generic import ListView, DetailView, UpdateView, CreateView, \
+    DeleteView, TemplateView
 
 from Bookies.constants import OrderStatuses
 from Bookies.models import Book, Author, Category, Review, Order, OrderItem
-
 
 # book views
 from Bookies.tasks import order_created
@@ -28,7 +30,9 @@ class BooksListView(ListView):
         query = self.request.GET.get('q')
         if query:
             return Book.objects.filter(
-                Q(title__icontains=query) | Q(author__name__icontains=query) | Q(description__icontains=query))
+                Q(title__icontains=query) | Q(
+                    author__name__icontains=query) | Q(
+                    description__icontains=query))
         else:
             return Book.objects.all()
 
@@ -39,27 +43,27 @@ class BookDetailView(DetailView):
     template_name = "book_details.html"
     fields = '__all__'
 
-
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context.update(
-            {'reviews': Review.objects.filter(order_item__book_id=self.kwargs.get('pk'))},
+            {'reviews': Review.objects.filter(
+                order_item__book_id=self.kwargs.get('pk'))},
         )
         return context
 
 
-
 class BookCreateView(CreateView):
     model = Book
-    fields = ['title', 'description', 'author', 'price', 'available', 'img', 'category']
+    fields = ['title', 'description', 'author', 'price', 'available', 'img',
+              'category']
     template_name = 'book_form.html'
     success_url = reverse_lazy('allbooks')
 
 
 class BookEditView(UpdateView):
     model = Book
-    fields = ['title', 'description', 'author', 'price', 'available', 'img', 'category']
+    fields = ['title', 'description', 'author', 'price', 'available', 'img',
+              'category']
     template_name = 'book_form.html'
     success_url = reverse_lazy('allbooks')
 
@@ -168,14 +172,18 @@ class ContactView(View):
     def get(self, request):
         return render(request, 'contact.html')
 
+
 # Cart ORDER, ORDERITEM
 
 class AddOrderItemView(View):
     def post(self, *args, **kwargs):
         order = Order.get_editable_order(self.request.user)
         try:
-            OrderItem.objects.get(book_id=self.kwargs.get('book_id'), order=order)
-        except:
+            OrderItem.objects.get(
+                book_id=self.kwargs.get('book_id'),
+                order=order
+            )
+        except OrderItem.DoesNotExist:
             OrderItem.objects.create(
                 book_id=self.kwargs.get('book_id'),
                 order=order)
@@ -197,6 +205,10 @@ class CartView(TemplateView):
         ctx['order'] = Order.get_editable_order(self.request.user)
         return ctx
 
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
+
 
 class Checkout(View):
     def post(self, request):
@@ -215,7 +227,10 @@ class ReviewCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
     success_url = reverse_lazy('userprofile')
 
     def test_func(self):
-        order_item = get_object_or_404(OrderItem, pk=self.kwargs.get('order_item_id'))
+        order_item = get_object_or_404(
+            OrderItem,
+            pk=self.kwargs.get('order_item_id')
+        )
         if order_item.order.user != self.request.user:
             return False
         elif order_item.order.status != OrderStatuses.COMLETED:
@@ -226,7 +241,7 @@ class ReviewCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
         try:
             form.instance.order_item_id = self.kwargs.get('order_item_id')
             return super().form_valid(form)
-        except:
+        except ValueError:
             raise Exception("You wrote it already")
 
 

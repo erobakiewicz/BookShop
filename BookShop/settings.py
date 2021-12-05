@@ -3,27 +3,24 @@ from pathlib import Path
 
 import dj_database_url
 import environ
-
 from BookShop.aws.conf import *
 
-env = environ.Env()
-# reading .env file
-environ.Env.read_env()
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-from django.conf.global_settings import DATABASES
+# Set the project base directory
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = env("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ['ebookstorebookers.herokuapp.com', '127.0.0.1']
+DEBUG = env.bool('DJANGO_DEBUG', default=False)
+ALLOWED_HOSTS = env.list('DJANGO_ALLOWED_HOSTS', default=[])
 
 # Application definition
 
@@ -71,13 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'BookShop.wsgi.application'
 
-# Database
-# https://docs.djangoproject.com/en/3.1/ref/settings/#databases
-
-
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -112,7 +102,12 @@ LOGOUT_REDIRECT_URL = '/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-DATABASES['default'] = dj_database_url.config(default='postgres://xdckkyyjxomlyd:08a48e7f703e31063e6ebc1a6946df570f4eea74b54123d78472ba09b333acd9@ec2-54-170-123-247.eu-west-1.compute.amazonaws.com:5432/ddprt6mgdaots4')
+DATABASES = {
+    'default': {
+        **env.db('DATABASE_URL'),
+        'CONN_MAX_AGE': 3600,  # 1h
+    },
+}
 
 # email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
